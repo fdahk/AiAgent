@@ -1,0 +1,11 @@
+// 项目根配置 - TypeScript项目的入口
+// 配置引用 - 指向其他具体配置文件
+//  工作区管理 - 管理多个子配置
+// 告诉TypeScript去哪里找具体配置
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
