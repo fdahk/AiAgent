@@ -1,0 +1,34 @@
+.left_nav_container {
+    width: 200px;
+    height: 100%;
+    border-radius: 5px;
+    background-color: #f2eeee;
+}
+.left_nav_header {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 70px;
+    padding: 0 10px;
+}
+.left_nav_header img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.left_nav_body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0 10px;
+}
+.left_nav_item {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}

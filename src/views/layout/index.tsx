@@ -1,9 +1,11 @@
+import Chat from './components/chat';
+import Left from './components/leftNav';
 function Layout() {
   return (
-    <div>
-      <h1>Layout</h1>
+    <div style={{ display: 'flex', height: '100vh', width: '100vw'}}>
+      <Left />
+      <Chat />
     </div>
   );
 }
-
 export default Layout;
