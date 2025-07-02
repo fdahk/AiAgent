@@ -12,7 +12,7 @@ export interface ChatResponse {
   };
   done: boolean;
 }
-
+/* 模型信息 */
 export interface ModelInfo {
   name: string;
   size: string;
@@ -21,20 +21,20 @@ export interface ModelInfo {
 }
 
 class AIService {
-  private baseURL = 'http://localhost:11434';
-
+  private baseURL = 'http://localhost:11434'; //Ollama服务地址
   // 检查Ollama服务是否可用
   async checkConnection(): Promise<boolean> {
     try {
       await axios.get(`${this.baseURL}/api/tags`);
       return true;
     } catch (error) {
-      console.warn('无法连接到Ollama服务，请确保Ollama已启动');
+      console.warn('无法连接到Ollama服务');
       return false;
     }
   }
 
   // 获取可用的模型列表
+  // 方法立即返回一个 Promise，Promise 内部包含的是"将来会得到的 ModelInfo[]
   async getAvailableModels(): Promise<ModelInfo[]> {
     try {
       const response = await axios.get(`${this.baseURL}/api/tags`);
@@ -103,12 +103,14 @@ class AIService {
   }
 
   // 流式对话（实时回复）
+  // 回调函数，每收到数据块就调用
   async chatStream(
     messages: ChatMessage[], 
     model: string = 'llama3.2',
     onChunk: (chunk: string) => void
   ): Promise<void> {
     try {
+      // axios 对流式响应支持较弱，使用 fetch原生支持流式响应
       const response = await fetch(`${this.baseURL}/api/chat`, {
         method: 'POST',
         headers: {
@@ -117,7 +119,7 @@ class AIService {
         body: JSON.stringify({
           model,
           messages,
-          stream: true,
+          stream: true, //启用流式响应
         }),
       });
 
@@ -130,9 +132,14 @@ class AIService {
         throw new Error('无法读取响应流');
       }
 
-      let fullResponse = '';
-      const decoder = new TextDecoder();
-
+      let fullResponse = ''; // 累积响应
+      // 网络传输的是字节数据（Uint8Array）
+      // 需要转换为可读的字符串
+      // 在流式传输中：
+      // value: Uint8Array [123, 34, 109, 101, 115, 115, ...]  // JSON字节
+      // chunk: '{"message":{"content":"你"}}\n{"message"...'    // 解码后的字符串
+      const decoder = new TextDecoder(); // 解码器
+      // 循环读取数据块
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;

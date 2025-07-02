@@ -1,24 +1,25 @@
-import chatStyles from './chat.module.css'; 
-import React, { useState, useEffect } from 'react';
+import chatStyles from './chat.module.scss'; 
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 // TypeScript严格模式要求类型导入使用type关键字
 // 类型导入与值导入分开，使用 type 关键字明确标识类型导入
 // 值导入 - 运行时存在，提供实际的API调用功能
 import { aiService } from '@/apis/aiService';
 // 类型导入 - 编译时存在，运行时擦除，仅用于TypeScript类型检查
 import type { ChatMessage, ModelInfo } from '@/apis/aiService';  
+import { useChatContext } from '../context/chatContext';
 
 // 定义Layout函数组件 - React函数式组件的标准写法
 function Chat() {
-  // useState Hook模式：const [state, setState] = useState<Type>(initialValue);
-  // state: 当前状态值  setState: 更新状态的函数  <Type>: TypeScript类型注解（可选）  initialValue: 初始值
-
-  const [input, setInput] = useState('');  // 用户输入状态
-  const [messages, setMessages] = useState<ChatMessage[]>([]);  // 消息列表状态
-  const [loading, setLoading] = useState(false);  // 加载状态
-  const [connected, setConnected] = useState(false);  // 连接状态
-  const [models, setModels] = useState<ModelInfo[]>([]);  // 可用模型列表状态
-  const [selectedModel, setSelectedModel] = useState('llama3.2');// 当前选中的模型
-//   const [isStreaming, setIsStreaming] = useState(false);  // 流式回复模式状态,不给选项，默认流式回复
+  // 从Context获取对话状态
+  const { messages, setMessages} = useChatContext();
+  // 本地状态
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [connected, setConnected] = useState(false);
+  const [models, setModels] = useState<ModelInfo[]>([]);
+  const [selectedModel, setSelectedModel] = useState('llama3.2');
+  const textareaRef = useRef<HTMLTextAreaElement>(null); // 输入框的引用，用于获取焦点
+  //const [isStreaming, setIsStreaming] = useState(false);  // 流式回复模式状态,不给选项，默认流式回复
   
   // useEffect Hook - 组件挂载时执行副作用操作
   // 检查连接和加载模型信息
@@ -26,6 +27,33 @@ function Chat() {
     // 组件首次渲染时调用连接检查函数
     checkConnection();
   }, []); // 空依赖数组表示只在组件挂载时执行一次
+
+  // 焦点设置
+  // 等到DOM完全渲染后再设置焦点
+  useLayoutEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }); // 每次渲染后都执行
+
+  // 监听messages变化，提交后重新设置焦点
+  useEffect(() => {
+    if (textareaRef.current) {
+      // 使用setTimeout确保状态更新完成
+      setTimeout(() => {
+        textareaRef.current?.focus();
+      }, 10);
+    }
+  }, [messages]);
+
+  // 监听input清空，重新设置焦点
+  useEffect(() => {
+    if (input === '' && textareaRef.current) {
+      setTimeout(() => {
+        textareaRef.current?.focus();
+      }, 10);
+    }
+  }, [input]);
 
   // 检查Ollama服务连接状态并获取可用模型
   const checkConnection = async () => {
@@ -52,14 +80,11 @@ function Chat() {
     // 阻止表单默认提交行为（页面刷新）
     e.preventDefault();
     if (!input.trim() || loading) return;
-    
     // 构建包含用户消息的新数组，不能直接使用setMessages，其是异步的，不能立即更新
     const userMessage: ChatMessage = { role: 'user', content: input };
     const newMessages = [...messages, userMessage];
-    
-    // 2. 更新状态显示用户消息
+    // 更新状态显示用户消息
     setMessages(newMessages);
-    
     setInput('');
     // 设置加载状态为true，禁用输入和显示加载提示
     setLoading(true);
@@ -67,19 +92,16 @@ function Chat() {
     //严格模式会故意执行两次某些函数来检测副作用：State更新函数 useEffect回调 事件处理函数
     try {
         // 流式回复
-        // 空的AI消息占位符
+        // 空的AI消息占位
         const assistantMessage: ChatMessage = { role: 'assistant', content: '' };
         const messagesWithAssistant = [...newMessages, assistantMessage];
-        
-        // 立即显示AI消息框
+        // 幂等性，避免重复设置
         setMessages(messagesWithAssistant);
-        
-        // ✅ 使用局部变量累积，然后整体赋值
+        // 收集完后整体赋值
         let accumulatedContent = '';
         
         // 传递完整的对话历史（包含当前用户消息）
         await aiService.chatStream(newMessages, selectedModel, (chunk) => {
-            // console.log(chunk);
             accumulatedContent += chunk;        // 在回调内部累积
             setMessages(prevMessages => {
                 const updatedMessages = [...prevMessages];
@@ -99,12 +121,12 @@ function Chat() {
         setMessages([...newMessages, errorMessage]);
     } finally {
       setLoading(false);
+      
+      // 回复完成后重新设置焦点
+      setTimeout(() => {
+        textareaRef.current?.focus();
+      }, 50);
     }
-  };
-
-  // 清空聊天记录
-  const clearChat = () => {
-    setMessages([]);
   };
 
   //未连接到Ollama服务时
@@ -134,9 +156,6 @@ function Chat() {
   //聊天界面
   return (
     <div className={chatStyles.chat_container}>
-
-
-
       {/* 对话历史*/}
       <div className={chatStyles.chat_content}>
         {messages.length === 0 ? (
@@ -169,10 +188,11 @@ function Chat() {
         <div className={chatStyles.chat_textarea_container}>
           {/* 对话输入*/}
           <textarea
+            ref={textareaRef}
             className={chatStyles.chat_textarea}
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="请输入您的问题..."
+            placeholder={loading ? '思考中...' : '请输入您的问题...'}
             disabled={loading}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
@@ -198,8 +218,9 @@ function Chat() {
                     </select>
             </div>
             {/* 右侧发送按钮 */}
-            <button className={chatStyles.chat_input_send} type="submit" disabled={loading || !input.trim()}>
-                {loading ? '发送中...' : '发送'}
+            <button className={chatStyles.chat_input_send} type="submit" disabled={loading || !input.trim()} 
+            style={{ cursor: (loading || !input.trim()) ? 'not-allowed' : 'pointer' }}>
+                {loading ? '思考中...' : '发送'}
             </button>
         </div>
       </form>
