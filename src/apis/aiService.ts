@@ -28,7 +28,7 @@ class AIService {
       await axios.get(`${this.baseURL}/api/tags`);
       return true;
     } catch (error) {
-      console.warn('无法连接到Ollama服务');
+      console.warn('无法连接到Ollama服务', error);
       return false;
     }
   }

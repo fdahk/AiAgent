@@ -1,4 +1,7 @@
 import chatStyles from './chat.module.scss'; 
+// React 对象：包含创建组件所需的核心方法
+// JSX 转换：JSX 语法需要 React 对象支持
+// 组件基类：提供组件生命周期等功能
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 // TypeScript严格模式要求类型导入使用type关键字
 // 类型导入与值导入分开，使用 type 关键字明确标识类型导入
