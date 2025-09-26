@@ -13,4 +13,8 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
+  // 定义全局常量替换
+  define: {
+    'process.env': process.env
+  },
 })
