@@ -1,16 +1,16 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { ChatMessage } from '@/apis/aiService';
+import type { ChatMessage } from '@/apis/chatBotService';
 
 // 保存的对话接口
-interface SavedChat {
+export interface SavedChat {
   id: string;
   title: string;
   messages: ChatMessage[];
 }
 
 // Context对话接口
-interface ChatContextType {
+export interface ChatContextType {
   messages: ChatMessage[];
   setMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
   chatKey: number;
@@ -24,7 +24,7 @@ interface ChatContextType {
 }
 
 // 创建Context
-const ChatContext = createContext<ChatContextType | undefined>(undefined);
+export const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
 // 自定义Provider组件
 export function ChatProvider({ children }: { children: ReactNode }) {
@@ -121,7 +121,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// 自定义Hook使用Context
+// 自定义 Hook 使用 Context（与 Provider 同文件便于维护）
 export function useChatContext() {
   const context = useContext(ChatContext);
   if (context === undefined) {
@@ -130,5 +130,5 @@ export function useChatContext() {
   return context;
 }
 
-//使用原生provider
-export default ChatContext;
+// 使用原生 provider（导出 Context 对象供少数场景使用）
+// export default ChatContext;

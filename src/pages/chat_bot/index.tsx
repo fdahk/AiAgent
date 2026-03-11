@@ -6,10 +6,10 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 // TypeScript严格模式要求类型导入使用type关键字
 // 类型导入与值导入分开，使用 type 关键字明确标识类型导入
 // 值导入 - 运行时存在，提供实际的API调用功能
-import { aiService } from '@/apis/aiService';
+import chatBotService from '@/apis/chatBotService';
 // 类型导入 - 编译时存在，运行时擦除，仅用于TypeScript类型检查
-import type { ChatMessage, ModelInfo } from '@/apis/aiService';  
-import { useChatContext } from '../context/chatContext';
+import type { ChatMessage, ModelInfo } from '@/apis/chatBotService';  
+import { useChatContext } from '@/pages/layout/context/chatContext';
 
 // 定义Layout函数组件 - React函数式组件的标准写法
 function Chat() {
@@ -61,13 +61,13 @@ function Chat() {
   // 检查Ollama服务连接状态并获取可用模型
   const checkConnection = async () => {
     //aiService检查连接
-    const isConnected = await aiService.checkConnection();
+    const isConnected = await chatBotService.checkConnection();
     // 更新连接状态
     setConnected(isConnected);
     // 如果连接成功，继续获取模型列表
     if (isConnected) {
       // 获取所有可用的AI模型信息
-      const availableModels = await aiService.getAvailableModels();
+      const availableModels = await chatBotService.getAvailableModels();
       // 更新模型列表状态
       setModels(availableModels);
       // 自动选择第一个作为默认模型
@@ -104,7 +104,7 @@ function Chat() {
         let accumulatedContent = '';
         
         // 传递完整的对话历史（包含当前用户消息）
-        await aiService.chatStream(newMessages, selectedModel, (chunk) => {
+        await chatBotService.chatStream(newMessages, selectedModel, (chunk) => {
             accumulatedContent += chunk;        // 在回调内部累积
             setMessages(prevMessages => {
                 const updatedMessages = [...prevMessages];

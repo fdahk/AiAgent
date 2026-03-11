@@ -20,4 +20,11 @@ export default tseslint.config([
       globals: globals.browser,
     },
   },
+  // 含 context 的路径（目录或文件名）不检查 react-refresh/only-export-components
+  {
+    files: ['**/context/**', '**/*[Cc]ontext*'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])

@@ -1,16 +1,25 @@
+import { useEffect, useRef } from 'react';
 
-import React, { useEffect, useRef } from 'react';
+/** WebChatClient 构造参数（基于实际用法，SDK 无官方类型） */
+interface CozeWebChatConfig {
+  config?: { bot_id?: string };
+  componentProps?: { title?: string };
+  auth?: {
+    type: string;
+    token?: string;
+    onRefreshToken?: () => string;
+  };
+}
 
-// 声明全局CozeWebSDK类型
 declare global {
   interface Window {
     CozeWebSDK: {
-      WebChatClient: new (config: any) => any;
+      WebChatClient: new (config: CozeWebChatConfig) => unknown;
     };
   }
 }
 
-export const CozeAgent: React.FC = () => {
+export function CozeAgent() {
   const containerRef = useRef<HTMLDivElement>(null);
   console.log(import.meta.env.VITE_COZE_SECRET_TOKEN);
 //   console.log(process.env.VITE_COZE_SECRET_TOKEN);
@@ -85,4 +94,4 @@ export const CozeAgent: React.FC = () => {
       {/* Coze聊天组件会自动注入到这里 */}
     </div>
   );
-};
+}

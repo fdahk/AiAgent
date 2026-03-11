@@ -2,6 +2,7 @@ import leftNavStyles from './leftNav.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useChatContext } from '../context/chatContext';
 import { useState, useEffect } from 'react';
+import type { SavedChat } from '../context/chatContext';
 
 function LeftNav() {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ function LeftNav() {
     // 历史对话
     const [showHistory, setShowHistory] = useState(false);
     // useState(() => getSavedChats()) 这种写法会在组件初始化时立即执行getSavedChats()，可能还没有完全准备好Context
-    const [savedChats, setSavedChats] = useState<any[]>([]); // 初始化为空数组
+    const [savedChats, setSavedChats] = useState<SavedChat[]>([]); // 初始化为空数组
     // 使用useEffect在组件挂载后初始化数据
     useEffect(() => {
         setSavedChats(getSavedChats());

@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Layout from '@/views/layout';
-import Chat from '@/views/layout/components/chat';
-import Home from '@/views/expand/index';
-import { CozeAgent } from '@/views/expand/components/cozeAgent';
+import Layout from '@/pages/layout';
+import Chat from '@/pages/chat_bot';
+import Home from '@/pages/expand';
+import { CozeAgent } from '@/pages/cozeAgent';
 export const router = createBrowserRouter([
   {
     path: '/',
