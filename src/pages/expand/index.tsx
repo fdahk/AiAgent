@@ -1,6 +1,6 @@
 import Expand from './components/expand.tsx';
 
-function Home() {
+function ExpandPage() {
     return (
         <div>
             <Expand />
@@ -8,4 +8,4 @@ function Home() {
     )
 }
 
-export default Home;
+export default ExpandPage;

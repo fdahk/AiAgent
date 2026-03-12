@@ -1,4 +1,4 @@
-import chatStyles from './chat.module.scss'; 
+import chatStyles from './style.module.scss'; 
 // React 对象：包含创建组件所需的核心方法
 // JSX 转换：JSX 语法需要 React 对象支持
 // 组件基类：提供组件生命周期等功能
@@ -6,13 +6,13 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 // TypeScript严格模式要求类型导入使用type关键字
 // 类型导入与值导入分开，使用 type 关键字明确标识类型导入
 // 值导入 - 运行时存在，提供实际的API调用功能
-import chatBotService from '@/apis/chatBotService';
+import chatBotService from '@/apis/chat-bot-service';
 // 类型导入 - 编译时存在，运行时擦除，仅用于TypeScript类型检查
-import type { ChatMessage, ModelInfo } from '@/apis/chatBotService';  
-import { useChatContext } from '@/pages/chat_bot/chatContext';
+import type { ChatMessage, ModelInfo } from '@/apis/chat-bot-service';  
+import { useChatContext } from '@/pages/chat-bot/chat-context';
 
 // 定义Layout函数组件 - React函数式组件的标准写法
-function Chat() {
+function ChatBotPage() {
   // 从Context获取对话状态
   const { messages, setMessages} = useChatContext();
   // 本地状态
@@ -158,19 +158,19 @@ function Chat() {
 
   //聊天界面
   return (
-    <div className={chatStyles.chat_container}>
+    <div className={chatStyles.chatContainer}>
       {/* 对话历史*/}
-      <div className={chatStyles.chat_content}>
+      <div className={chatStyles.chatContent}>
         {messages.length === 0 ? (
           // 空消息时的占位内容
-          <div className={chatStyles.chat_content_empty}>
+          <div className={chatStyles.chatContentEmpty}>
             开始您的AI对话吧！
           </div>
         ) : (
           // 遍历显示所有消息
           messages.map((message, index) => (
-            <div key={index} className={message.role === 'user' ? chatStyles.user_message_container : chatStyles.ai_message_container}>
-              <div className={message.role === 'user' ? chatStyles.user_message_content : chatStyles.ai_message_content}>
+            <div key={index} className={message.role === 'user' ? chatStyles.userMessageContainer : chatStyles.aiMessageContainer}>
+              <div className={message.role === 'user' ? chatStyles.userMessageContent : chatStyles.aiMessageContent}>
                 {message.content}
               </div> 
             </div>
@@ -179,20 +179,20 @@ function Chat() {
         
         {/* 只在loading状态为true时显示 */}
         {loading && (
-          <div className={chatStyles.chat_content_loading}>
+          <div className={chatStyles.chatContentLoading}>
             思考中...
           </div>
         )}
       </div>
 
       {/* 用户输入区域 */}
-      <form onSubmit={handleSubmit} className={chatStyles.chat_input_container}>
+      <form onSubmit={handleSubmit} className={chatStyles.chatInputContainer}>
         {/* 输入框和发送按钮容器 */}
-        <div className={chatStyles.chat_textarea_container}>
+        <div className={chatStyles.chatTextareaContainer}>
           {/* 对话输入*/}
           <textarea
             ref={textareaRef}
-            className={chatStyles.chat_textarea}
+            className={chatStyles.chatTextarea}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={loading ? '思考中...' : '请输入您的问题...'}
@@ -207,30 +207,30 @@ function Chat() {
 
         </div>
         {/* 输入框底部 */}
-        <div className={chatStyles.chat_input_footer}>
+        <div className={chatStyles.chatInputFooter}>
             {/* 底部左侧按钮区 */}
-            <div className={chatStyles.chat_input_footer_left}>
+            <div className={chatStyles.chatInputFooterLeft}>
                     {/* 模型选择下拉框 */}
-                    <select className={chatStyles.chat_input_footer_left_select} value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)} >
+                    <select className={chatStyles.chatInputFooterLeftSelect} value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)} >
                         {/* 选项 */}
                         {models.map((model) => (
-                        <option className={chatStyles.chat_input_footer_left_select_option} key={model.name} value={model.name}>
+                        <option className={chatStyles.chatInputFooterLeftSelectOption} key={model.name} value={model.name}>
                             {model.name}
                         </option>
                         ))}
                     </select>
             </div>
             {/* 右侧发送按钮 */}
-            <button className={chatStyles.chat_input_send} type="submit" disabled={loading || !input.trim()} 
+            <button className={chatStyles.chatInputSend} type="submit" disabled={loading || !input.trim()} 
             style={{ cursor: (loading || !input.trim()) ? 'not-allowed' : 'pointer' }}>
                 {loading ? '思考中...' : '发送'}
             </button>
         </div>
       </form>
         {/* 操作提示 */}
-        <div className={chatStyles.chat_input_footer_hint}>按Enter发送，Shift+Enter换行</div>
+        <div className={chatStyles.chatInputFooterHint}>按Enter发送，Shift+Enter换行</div>
     </div>
   );
 }
 
-export default Chat;
+export default ChatBotPage;

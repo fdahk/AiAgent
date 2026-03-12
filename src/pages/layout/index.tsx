@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import Left from './components/leftNav';
-import { ChatProvider } from '../chat_bot/chatContext';
+import LeftNav from './components/left-nav';
+import { ChatProvider } from '../chat-bot/chat-context';
 
 function Layout() {
   return (
@@ -8,7 +8,7 @@ function Layout() {
     <ChatProvider>
       <div style={{ display: 'flex', height: '100vh', width: '100vw'}}>
         {/* 左侧导航栏 */}
-        <Left />
+        <LeftNav />
         {/* 二级页面 */}
         <div style={{ flex: 1 }}>
           <Outlet /> {/* 渲染子路由，不能直接通过 props 传递数据， */}

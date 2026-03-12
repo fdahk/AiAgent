@@ -1,8 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '@/pages/layout';
-import Chat from '@/pages/chat_bot';
-import Home from '@/pages/expand';
-import { CozeAgent } from '@/pages/cozeAgent';
+import ChatBotPage from '@/pages/chat-bot';
+import ExpandPage from '@/pages/expand';
+import WorkspacePage from '@/pages/workspace';
+import { CozeAgent } from '@/pages/coze-agent';
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -10,15 +11,19 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Chat />, 
+        element: <ChatBotPage />, 
       },
       {
         path: '/expand',
-        element: <Home />,
+        element: <ExpandPage />,
       },
       {
-        path: '/expand/cozeAgent',
+        path: '/expand/coze-agent',
         element: <CozeAgent />,
+      },
+      {
+        path: '/workspace',
+        element: <WorkspacePage />,
       },
     ],
   },

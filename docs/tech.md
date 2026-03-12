@@ -7248,3 +7248,617 @@ export const APP_CONFIG = {
 ```
 
 这是一种比较常见、平衡的工程做法。
+
+---
+
+## 命名上前端有没有业界标准规范？前端、后端、移动端有差异吗？
+
+### 必要概念 / 名词解释 / 背景知识
+
+#### 1. 命名规范是什么
+
+命名规范本质上是：给变量、函数、类、文件、目录、接口、组件、路由、样式类等取名字时，遵循一套统一规则。
+
+它解决的问题不是“代码能不能跑”，而是：
+
+- 好不好读
+- 好不好搜
+- 好不好协作
+- 好不好长期维护
+
+#### 2. “业界标准”通常分两层
+
+前端里很少存在一个像 HTTP 那样的“唯一官方命名标准”。更常见的是两层：
+
+1. **通用共识**
+   例如：
+   - 变量/函数常用 `camelCase`
+   - 类/组件常用 `PascalCase`
+   - 常量常用 `UPPER_SNAKE_CASE`
+2. **团队/框架约定**
+   例如：
+   - React 组件文件是否和组件同名
+   - `index.tsx` 还是 `Component.tsx`
+   - CSS Modules 类名是否用 `camelCase` 或 `kebab-case`
+
+所以“有规范”，但通常是**强共识 + 团队约定**，而不是全球唯一标准。
+
+### 本质是在做什么
+
+命名规范的本质是在建立一套“看到名字就能猜出角色”的规则。
+
+例如看到：
+
+- `getUserList()`：知道是函数
+- `UserCard`：知道像组件或类
+- `USER_STATUS_MAP`：知道像常量映射
+- `user-service.ts`：知道像服务文件
+
+这会直接降低认知成本。
+
+### 前端常见的业界共识
+
+#### 1. 变量、函数
+
+通常用 `camelCase`：
+
+```ts
+const userName = 'Tom';
+function fetchUserInfo() {}
+const isLoading = false;
+```
+
+原因：
+
+- JS/TS 社区长期主流
+- 与浏览器 API、Node API、React Hook 风格一致
+
+#### 2. 类、React 组件、类型名、接口名
+
+通常用 `PascalCase`：
+
+```ts
+class UserService {}
+function ChatPanel() {}
+type UserProfile = {}
+interface NetworkClient {}
+```
+
+原因：
+
+- 一眼区分于普通变量/函数
+- React 组件必须以大写开头才能被 JSX 识别为组件
+
+#### 3. 常量
+
+真正全局固定、不变化的常量，常用 `UPPER_SNAKE_CASE`：
+
+```ts
+const MAX_RETRY_COUNT = 3;
+const DEFAULT_TIMEOUT = 30000;
+```
+
+但这里要注意：
+
+- 不是所有 `const` 都应该大写
+- 只有“语义上是常量”的才适合大写
+
+像：
+
+```ts
+const userName = 'Tom';
+```
+
+这种虽然语法上是 `const`，也不应写成 `USER_NAME`。
+
+#### 4. 布尔值命名
+
+通常用有“状态语义”的前缀：
+
+- `isLoading`
+- `hasError`
+- `canSubmit`
+- `shouldRetry`
+
+这属于前端、后端、移动端都很常见的通用好习惯。
+
+#### 5. 事件处理函数
+
+前端里常见：
+
+- `handleSubmit`
+- `handleClick`
+- `handleChange`
+- `onSubmit`
+
+区别通常是：
+
+- `onXxx`：更像传入的回调/事件属性
+- `handleXxx`：更像当前组件内部的处理函数
+
+#### 6. React Hook
+
+React 生态强约定：
+
+- 自定义 Hook 必须以 `use` 开头
+
+例如：
+
+```ts
+useChatContext()
+useUserInfo()
+useDebounce()
+```
+
+这是 React 生态里非常强的命名规范，不只是风格问题，还和 lint/规则识别有关。
+
+#### 7. 文件名
+
+前端文件名常见两派：
+
+1. `kebab-case`
+   - `chat-service.ts`
+   - `left-nav.module.scss`
+2. 与组件同名的 `PascalCase`
+   - `ChatPanel.tsx`
+   - `UserCard.tsx`
+
+在 React + Vite 项目里，两种都能见到。  
+关键不是哪种唯一正确，而是**项目内保持一致**。
+
+#### 8. CSS / SCSS 类名
+
+常见有三种：
+
+1. `kebab-case`
+   - `.chat-container`
+2. `camelCase`
+   - `.chatContainer`
+3. BEM 风格
+   - `.chat__container`
+   - `.chat_container`
+   - `.chat--active`
+
+PascalCase	UserInfo	首字母全大写	无	React 组件、TS 接口 / 类、类型
+camelCase	userInfo	首字母小写	无	JS 变量、函数、对象属性
+kebab-case	user-info	全小写	-	HTML/CSS、URL、class、文件
+
+CSS Modules 项目里，很多团队会偏向 `camelCase` 或 BEM 变体，方便在 JS/TS 中通过 `styles.xxx` 访问。
+
+### 前端有没有“最标准”的唯一答案？
+
+没有完全唯一的答案，但有几个很强的主流共识：
+
+1. JS/TS 变量函数：`camelCase`
+2. 类/组件/类型：`PascalCase`
+3. 常量：`UPPER_SNAKE_CASE`
+4. Hook：`useXxx`
+5. 布尔值：`is/has/can/should`
+6. 文件命名和样式类命名：团队统一比“选哪一派”更重要
+
+所以真正的工程标准不是“必须某一种”，而是：
+
+- **遵循社区主流**
+- **保持项目内部一致**
+- **名字体现语义，而不是只描述实现**
+
+### 前端、后端、移动端有差异吗？
+
+有，但更多是“生态差异”，不是“底层原则完全不同”。
+
+### 共性
+
+三端共同遵守的好命名原则基本一致：
+
+1. 见名知意
+2. 同一类东西命名风格一致
+3. 布尔值像布尔值
+4. 动作函数像动作函数
+5. 避免无意义缩写
+6. 避免一个项目里混用多种风格
+
+### 前端的特点
+
+前端更强调：
+
+- 组件命名
+- Hook 命名
+- 样式类命名
+- 事件处理函数命名
+- 路由/页面文件命名
+
+例如：
+
+- `ChatPage`
+- `LeftNav`
+- `useChatContext`
+- `handleSubmit`
+
+这些是前端特有语境里很重要的。
+
+### 后端的特点
+
+后端更强调：
+
+- 服务层 / 仓储层 / 控制器层命名
+- 实体、DTO、VO、Repository、Service 命名
+- 数据库字段和表名规范
+- API 路由语义命名
+
+例如常见：
+
+- `UserService`
+- `UserRepository`
+- `CreateUserDto`
+- `OrderController`
+
+后端还更常遇到“代码命名”和“数据库命名”并存的问题：
+
+- 代码里可能是 `camelCase`
+- 数据库里可能是 `snake_case`
+
+### 移动端的特点
+
+移动端要看具体技术栈：
+
+#### Android / Kotlin / Java
+
+常见更接近 Java/Kotlin 社区：
+
+- 类名 `PascalCase`
+- 方法变量 `camelCase`
+- 常量 `UPPER_SNAKE_CASE`
+- XML 资源名常用 `snake_case`
+
+#### iOS / Swift
+
+常见更接近 Apple/Swift 风格：
+
+- 类型 `PascalCase`
+- 属性/方法 `camelCase`
+- 枚举 case 常用 `camelCase`
+
+#### Flutter / Dart
+
+Dart/Flutter 官方风格通常是：
+
+- 类型名 `PascalCase`
+- 变量/函数 `camelCase`
+- 文件名 `snake_case`
+- 常量多数仍用 `camelCase` 的 `const` 形式，未必强制全大写
+
+这和前端 JS/TS 在“文件命名”和“常量习惯”上就会出现差异。
+
+### 所以差异到底在哪里
+
+差异主要在这些地方：
+
+1. **文件命名偏好**
+   - React 前端常见 `kebab-case` / `PascalCase`
+   - Flutter 更偏 `snake_case`
+2. **样式/资源命名**
+   - 前端有 CSS 类名、静态资源、路由名
+   - 后端更关注表名、字段名、DTO 名
+   - 移动端更关注页面、资源、控件、assets 命名
+3. **框架强约定**
+   - React：`useXxx`
+   - Java Spring：`XxxController / XxxService`
+   - Flutter：`XxxPage / XxxView / XxxController` 常见但团队差异较大
+
+### 更本质的命名标准
+
+真正更底层、跨端通用的标准其实是这几个：
+
+1. **语义优先**
+   名字先表达“它是什么/干什么”，再考虑写法风格
+
+2. **层级一致**
+   同类对象命名规则一致，例如所有页面都叫 `XxxPage`，所有服务都叫 `XxxService`
+
+3. **不要把实现细节写死在名字里**
+   例如：
+   - `handleSubmit` 通常比 `clickBtnFn` 更好
+
+4. **避免随意缩写**
+   除非是行业通用缩写：
+   - `URL`
+   - `HTTP`
+   - `ID`
+   - `API`
+
+5. **在团队中可预测**
+   看到名字能猜到文件位置、职责、类型
+
+### 作用过程的底层原理
+
+命名本身不改变程序运行结果，但它会显著影响：
+
+- 静态阅读效率
+- IDE 搜索效率
+- 自动补全体验
+- 代码评审质量
+- 新成员上手速度
+- 重构成本
+
+从工程角度看，命名规范是“降低认知复杂度”的重要工具。
+
+### 扩展知识与注意点
+
+4. **前端项目尤其要重视样式类名和组件名**
+   因为它们经常同时出现在 JSX、样式文件、设计稿和文档里。
+
+---
+
+## 为什么 `style.module.scss` 里的类名用小驼峰？这是标准做法吗？为什么不用短横线？
+
+本节对应你现在这种写法：
+
+```scss
+.workspaceContainer {}
+.workspaceHeader {}
+```
+
+### 必要概念 / 名词解释 / 背景知识
+
+#### 1. CSS 类名本身支持多种风格
+
+CSS 规范并没有规定类名必须用哪一种风格。  
+下面这些从语法上都可以：
+
+```scss
+.workspace-container {}
+.workspaceContainer {}
+.workspace_container {}
+```
+
+所以这不是“语法标准”问题，而是**工程约定**问题。
+
+#### 2. CSS Modules 和普通全局 CSS 不完全一样
+
+在普通 CSS 里，类名更多只是给浏览器匹配选择器用。  
+但在 CSS Modules 里，类名还会被 JS/TS 代码直接访问：
+
+```tsx
+import styles from './style.module.scss';
+
+<div className={styles.workspaceContainer} />
+```
+
+这意味着类名不仅是 CSS 名字，还是一个会出现在 JS 对象属性访问里的名字。
+
+### 本质是在做什么
+
+你问“为什么用小驼峰”，本质是在问：
+
+- 样式类名到底应该更像 CSS 生态习惯
+- 还是更像 JS/TS 生态习惯
+
+在 CSS Modules 里，因为类名会进入：
+
+```ts
+styles.xxx
+```
+
+很多团队就会倾向让它更贴近 JS/TS 的访问习惯，也就是 `camelCase`。
+
+### 这是标准做法吗？
+
+#### 结论
+
+**是常见且合理的做法，但不是唯一标准。**
+
+更准确地说：
+
+- 在 **普通 CSS / 全局样式** 里，`kebab-case`（短横线）更传统、更常见
+- 在 **CSS Modules** 里，`camelCase`（小驼峰）非常常见，因为它更适合和 `styles.xxx` 配合
+
+所以：
+
+- 小驼峰不是“唯一标准”
+- 但在 CSS Modules 场景下，它是很主流的工程选择
+
+### 为什么很多 CSS Modules 项目更喜欢小驼峰
+
+#### 1. 和 JS/TS 访问方式天然一致
+
+你在 TSX 里写的是：
+
+```tsx
+styles.workspaceContainer
+```
+
+这个写法和 JS 变量/对象属性风格一致，读起来比较自然。
+
+如果你用短横线：
+
+```scss
+.workspace-container {}
+```
+
+那在 TSX 里就不能写：
+
+```tsx
+styles.workspace-container
+```
+
+因为 `-` 会被当成减号。
+
+你只能写成：
+
+```tsx
+styles['workspace-container']
+```
+
+这当然也可以，但：
+
+- 不如点语法直观
+- 自动补全和重构体验也稍差一些
+
+#### 2. 更适合和组件代码一起阅读
+
+组件里常常会出现：
+
+```tsx
+<div className={styles.chatInputFooterHint} />
+```
+
+对于 React/TS 项目来说，这种命名会和：
+
+- 变量
+- props
+- 函数
+- 组件属性
+
+形成统一视觉风格，阅读时更顺。
+
+#### 3. 避免混用两套心智模型
+
+如果组件代码里全是：
+
+- `camelCase`
+- `PascalCase`
+
+而样式访问却总是：
+
+```tsx
+styles['chat-input-footer-hint']
+```
+
+很多团队会觉得风格割裂。
+
+### 为什么普通 CSS 里很多人更喜欢短横线
+
+因为在传统 CSS 生态里：
+
+- HTML class 属性本来就是字符串
+- CSS 类名直接写在模板里
+
+例如：
+
+```html
+<div class="chat-input-footer-hint"></div>
+```
+
+这时 `kebab-case` 有几个优势：
+
+1. 更接近 HTML / CSS 传统习惯
+2. 单词边界清晰
+3. BEM 风格也常以短横线和双下划线展开
+
+所以短横线在“纯 CSS 视角”里是非常自然的。
+
+### 那为什么你这个项目里不用短横线？
+
+因为你现在是：
+
+- React
+- TypeScript
+- CSS Modules
+
+在这个组合下，类名会大量以：
+
+```tsx
+styles.workspaceContainer
+```
+
+的形式出现。  
+所以从工程使用体验看，`camelCase` 会更顺手。
+
+### 什么时候更适合短横线？
+
+更适合 `kebab-case` 的场景通常是：
+
+- 全局 CSS
+- 传统 HTML 模板项目
+- 不走 CSS Modules 的样式体系
+- 团队强依赖 BEM 书写风格
+
+例如：
+
+```scss
+.chat-input-footer-hint {}
+```
+
+在普通 HTML/CSS 体系里这非常自然。
+
+### 什么时候更适合小驼峰？
+
+更适合 `camelCase` 的场景通常是：
+
+- React + CSS Modules
+- TSX 中频繁通过 `styles.xxx` 访问
+- 希望样式命名与 JS/TS 命名风格保持一致
+
+例如：
+
+```scss
+.chatInputFooterHint {}
+```
+
+配合：
+
+```tsx
+styles.chatInputFooterHint
+```
+
+可读性会比较好。
+
+### 作用过程的底层原理
+
+CSS Modules 会把样式文件里的类名导出成一个 JS 对象，大致可以理解成：
+
+```ts
+{
+  workspaceContainer: '_workspaceContainer_x7f3a_1'
+}
+```
+
+然后你在组件里写：
+
+```tsx
+styles.workspaceContainer
+```
+
+本质是在读这个对象的一个属性。
+
+如果类名是：
+
+```scss
+.workspace-container {}
+```
+
+那导出的对象键也会更接近：
+
+```ts
+{
+  'workspace-container': '_workspace-container_x7f3a_1'
+}
+```
+
+这就要求你更多使用：
+
+```tsx
+styles['workspace-container']
+```
+
+所以小驼峰在 CSS Modules 里更受欢迎，核心原因不是 CSS 语法，而是 **JS 对象访问体验**。
+
+### 扩展知识与注意点
+
+1. **这不是“谁更标准”，而是谁更适合当前技术栈”**  
+   在普通 CSS 里，短横线很常见；在 CSS Modules 里，小驼峰也很常见。
+
+2. **一致性比选哪一种更重要**  
+   一个项目里全用 `camelCase`，或者全用 `kebab-case`，都比混着来好。
+
+3. **如果用短横线，建议统一用中括号访问**  
+   例如：
+   ```tsx
+   styles['chat-input-footer']
+   ```
+
+4. **如果用小驼峰，和 TS/JS 代码的风格会更统一**  
+   这就是你当前项目统一成小驼峰的主要原因。
+
+5. **结合你当前项目的判断**  
+   你项目现在把 CSS Modules 类名统一成 `camelCase` 是合理的，因为你大量在 TSX 中通过 `styles.xxx` 使用样式；如果继续用短横线，引用时会更频繁地退化成 `styles['xxx-yyy']`，整体开发体验会差一些。

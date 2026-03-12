@@ -1,8 +1,8 @@
-import leftNavStyles from './leftNav.module.scss';
+import leftNavStyles from './left-nav.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { useChatContext } from '../../chat_bot/chatContext';
+import { useChatContext } from '../../chat-bot/chat-context';
 import { useState, useEffect } from 'react';
-import type { SavedChat } from '../../chat_bot/chatContext';
+import type { SavedChat } from '../../chat-bot/chat-context';
 
 function LeftNav() {
     const navigate = useNavigate();
@@ -41,32 +41,31 @@ function LeftNav() {
         navigate('/'); // 导航到主页面
     }
     
+    const handleClickWorkspace = () => {
+        navigate('/workspace');
+    }
     // 左侧导航栏
     return(
-        <div className={leftNavStyles.left_nav_container}>
+        <div className={leftNavStyles.leftNavContainer}>
             {/* logo */}
-            <div className={leftNavStyles.left_nav_header}>
+            <div className={leftNavStyles.leftNavHeader}>
                 <img src={"/logo.png"} alt="logo" />
                 <h2>Ai-Agent</h2>
             </div>
             {/* 导航栏 */}
-            <div className={leftNavStyles.left_nav_body}>
-                <div className={leftNavStyles.left_nav_item} onClick={handleClickNewChat}>
+            <div className={leftNavStyles.leftNavBody}>
+                <div className={leftNavStyles.leftNavItem} onClick={handleClickNewChat}>
                     <label htmlFor="">+</label>
                     <p>新对话 ({messages.length}条消息)</p>
                 </div>
-                <div className={leftNavStyles.left_nav_item} onClick={handleClickExpand}>
-                    <label htmlFor="">+</label>
-                    <p>扩展</p>
-                </div>
-                <div className={leftNavStyles.left_nav_item} onClick={handleClickHistory}>
+                <div className={leftNavStyles.leftNavItem} onClick={handleClickHistory}>
                     <label htmlFor="">+</label>
                     <p>历史对话 ({savedChats.length})</p>
                 </div>
                 {showHistory && (
-                        <div className={leftNavStyles.history_list}>
+                        <div className={leftNavStyles.historyList}>
                             {savedChats.length === 0 ? (
-                                <div className={leftNavStyles.history_item}>
+                                <div className={leftNavStyles.historyItem}>
                                     <label htmlFor="">-</label>
                                     暂无历史对话
                                 </div>
@@ -74,7 +73,7 @@ function LeftNav() {
                                 savedChats.map((chat) => (
                                     <div 
                                         key={chat.id} 
-                                        className={leftNavStyles.history_item}
+                                        className={leftNavStyles.historyItem}
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             handleLoadChat(chat.id);
@@ -87,6 +86,14 @@ function LeftNav() {
                             )}
                         </div>
                     )}
+                <div className={leftNavStyles.leftNavItem} onClick={handleClickExpand}>
+                    <label htmlFor="">+</label>
+                    <p>扩展</p>
+                </div>
+                <div className={leftNavStyles.leftNavItem} onClick={handleClickWorkspace}>
+                    <label htmlFor="">+</label>
+                    <p>workspace</p>
+                </div>
             </div>
         </div>
     )

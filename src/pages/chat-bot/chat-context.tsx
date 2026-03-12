@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { ChatMessage } from '@/apis/chatBotService';
+import type { ChatMessage } from '@/apis/chat-bot-service';
 
 // 保存的对话接口
 export interface SavedChat {

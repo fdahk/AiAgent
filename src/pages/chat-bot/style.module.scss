@@ -1,5 +1,5 @@
 /* 聊天容器 */
-.chat_container {
+.chatContainer {
     flex: 1; /* 宽度占满剩余空间 */
     // min-height: 100%;
     height: 100%;
@@ -11,7 +11,7 @@
 }
 
 /* 聊天内容区容器 */
-.chat_content {
+.chatContent {
     width: 100%;
     flex: 1;
     position: relative;
@@ -21,20 +21,20 @@
     scrollbar-width: none; /* 隐藏滚动条 */
 }
 
-.chat_content_empty {
+.chatContentEmpty {
     text-align: center;
     color: var(--text-primary-color);
     margin-top: 10rem;
 }
 
-.chat_content_loading {
+.chatContentLoading {
     text-align: center;
     color: var(--text-primary-color);
     margin-top: 10rem;
 }
 
 /* 对话输入 */
-.chat_input_container {
+.chatInputContainer {
     display: flex;
     flex-direction: column;
     width: 60%;
@@ -44,13 +44,13 @@
     border-radius: 20px;
     overflow: hidden;
     
-    .chat_textarea_container {
+    .chatTextareaContainer {
         flex: 1;
         border: 1px solid black;
         border: none;
         resize: none;
         
-        .chat_textarea {
+        .chatTextarea {
             width: 100%;
             height: 100%;
             background-color: var(--bg-surface-color);
@@ -69,13 +69,13 @@
     }
     
     /* 输入框底部 */
-    .chat_input_footer {
+    .chatInputFooter {
         display: flex;
         align-items: center;
         justify-content: space-between;
         height: 40px;
         
-        &_left {
+        &Left {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -83,7 +83,7 @@
             padding: 0 8px;
             font-size: .9rem;
             
-            &_select {
+            &Select {
                 width: auto;
                 height: 100%;
                 background-color: var(--bg-surface-color);
@@ -92,7 +92,7 @@
                 outline: none;
                 font-size: .9rem;
                 
-                &_option {
+                &Option {
                     font-size: .9rem;
                     background-color: var(--bg-surface-color);
                     color: var(--text-primary-color);
@@ -105,7 +105,7 @@
         }
     }
     
-    .chat_input_send {
+    .chatInputSend {
         height: 100%;
         width: 80px;
         background-color: var(--primary-color);
@@ -120,21 +120,21 @@
 }
 
 /* 消息容器 */
-.ai_message_container {
+.aiMessageContainer {
    display: flex;
    width: 100%;
    justify-content: flex-start;
    padding: 10px 10px;
 }
 
-.user_message_container {
+.userMessageContainer {
     display: flex;
     width: 100%;
     justify-content: flex-end;
     padding: 10px 10px;
 }
 
-.user_message_content {
+.userMessageContent {
     max-width: 50%;
     word-break: break-all;
     background-color: var(--bg-surface-color);
@@ -143,7 +143,7 @@
     margin-right: 10px;
 }
 
-.ai_message_content {
+.aiMessageContent {
     max-width: 50%;
     word-break: break-all;
     background-color: var(--bg-surface-color);
@@ -153,7 +153,7 @@
 }
 
 
-.chat_input_footer_hint {
+.chatInputFooterHint {
     font-size: .9rem;
     color: var(--text-primary-color);
     margin: 8px 0;

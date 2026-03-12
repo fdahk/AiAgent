@@ -1,4 +1,4 @@
-.left_nav_container {
+.leftNavContainer {
     width: 200px;
     height: 100%;
     border-radius: 5px;
@@ -7,7 +7,7 @@
     scrollbar-width: thin;
     scrollbar-color: #888 transparent; // 滑块颜色 轨道颜色
     
-    .left_nav_header {
+    .leftNavHeader {
         display: flex;
         align-items: center;
         justify-content: start;
@@ -22,14 +22,14 @@
         }
     }
     
-    .left_nav_body {
+    .leftNavBody {
         display: flex;
         flex-direction: column;
         flex: 1;
         padding: 0 10px;
     }
     
-    .left_nav_item {
+    .leftNavItem {
         display: flex;
         align-items: center;
         justify-content: start;
@@ -51,12 +51,12 @@
 }
 
 //历史对话列表
-.history_list {
+.historyList {
   width: 100%;
   max-height: 300px;
 }
 
-.history_item {
+.historyItem {
   padding: 5px 16px;
   cursor: pointer;
   transition: background-color 0.2s;
