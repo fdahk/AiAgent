@@ -1,0 +1,1 @@
+export const OLLAMA_BASE = 'http://localhost:11434';

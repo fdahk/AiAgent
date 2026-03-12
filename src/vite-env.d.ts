@@ -10,7 +10,8 @@ interface ImportMetaEnv {
   readonly VITE_COZE_SECRET_TOKEN: string
 }
 
-
+/** 环境变量类型声明
+ */
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }

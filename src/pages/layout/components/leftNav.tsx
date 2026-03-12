@@ -1,8 +1,8 @@
 import leftNavStyles from './leftNav.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { useChatContext } from '../context/chatContext';
+import { useChatContext } from '../../chat_bot/chatContext';
 import { useState, useEffect } from 'react';
-import type { SavedChat } from '../context/chatContext';
+import type { SavedChat } from '../../chat_bot/chatContext';
 
 function LeftNav() {
     const navigate = useNavigate();
@@ -46,7 +46,7 @@ function LeftNav() {
         <div className={leftNavStyles.left_nav_container}>
             {/* logo */}
             <div className={leftNavStyles.left_nav_header}>
-                <img src="\src\assets\logo.png" alt="logo" />
+                <img src={"/logo.png"} alt="logo" />
                 <h2>Ai-Agent</h2>
             </div>
             {/* 导航栏 */}

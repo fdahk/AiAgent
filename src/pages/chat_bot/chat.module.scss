@@ -3,7 +3,7 @@
     flex: 1; /* 宽度占满剩余空间 */
     // min-height: 100%;
     height: 100%;
-    background-color: white;
+    color: var(--text-primary-color);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,6 +21,18 @@
     scrollbar-width: none; /* 隐藏滚动条 */
 }
 
+.chat_content_empty {
+    text-align: center;
+    color: var(--text-primary-color);
+    margin-top: 10rem;
+}
+
+.chat_content_loading {
+    text-align: center;
+    color: var(--text-primary-color);
+    margin-top: 10rem;
+}
+
 /* 对话输入 */
 .chat_input_container {
     display: flex;
@@ -28,6 +40,7 @@
     width: 60%;
     height: 150px;
     border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: var(--bg-surface-color);
     border-radius: 20px;
     overflow: hidden;
     
@@ -40,8 +53,8 @@
         .chat_textarea {
             width: 100%;
             height: 100%;
-            background-color: white;
-            color: black;
+            background-color: var(--bg-surface-color);
+            color: var(--text-primary-color);
             border: none;
             border-radius: 5px;
             resize: none;
@@ -49,6 +62,9 @@
             outline: none;
             font-size: 1.1rem;
             font-weight: 800;
+            &::placeholder {
+                color: var(--text-primary-color);
+            }
         }
     }
     
@@ -70,8 +86,7 @@
             &_select {
                 width: auto;
                 height: 100%;
-                background-color: white;
-                color: black;
+                background-color: var(--bg-surface-color);
                 border: none;
                 border-radius: 5px;
                 outline: none;
@@ -79,8 +94,8 @@
                 
                 &_option {
                     font-size: .9rem;
-                    background-color: white;
-                    color: black;
+                    background-color: var(--bg-surface-color);
+                    color: var(--text-primary-color);
                     border: 1px solid rgba(0, 0, 0, 0.2);
                     border-radius: 5px;
                     outline: none;
@@ -94,10 +109,13 @@
         height: 100%;
         width: 80px;
         background-color: var(--primary-color);
-        color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        &:disabled {
+            color: var(--text-primary-color);
+            cursor: not-allowed;
+        }
     }
 }
 
@@ -106,7 +124,6 @@
    display: flex;
    width: 100%;
    justify-content: flex-start;
-   color: black;
    padding: 10px 10px;
 }
 
@@ -114,14 +131,13 @@
     display: flex;
     width: 100%;
     justify-content: flex-end;
-    color: black;
     padding: 10px 10px;
 }
 
 .user_message_content {
     max-width: 50%;
     word-break: break-all;
-    background-color: rgba(215, 209, 209,0.5);
+    background-color: var(--bg-surface-color);
     padding: 8px;
     border-radius: 5px;
     margin-right: 10px;
@@ -130,7 +146,15 @@
 .ai_message_content {
     max-width: 50%;
     word-break: break-all;
+    background-color: var(--bg-surface-color);
     padding: 10px;
     margin-left: 10px;
     text-align: left; 
+}
+
+
+.chat_input_footer_hint {
+    font-size: .9rem;
+    color: var(--text-primary-color);
+    margin: 8px 0;
 }

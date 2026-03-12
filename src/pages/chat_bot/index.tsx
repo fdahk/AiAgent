@@ -9,7 +9,7 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import chatBotService from '@/apis/chatBotService';
 // 类型导入 - 编译时存在，运行时擦除，仅用于TypeScript类型检查
 import type { ChatMessage, ModelInfo } from '@/apis/chatBotService';  
-import { useChatContext } from '@/pages/layout/context/chatContext';
+import { useChatContext } from '@/pages/chat_bot/chatContext';
 
 // 定义Layout函数组件 - React函数式组件的标准写法
 function Chat() {
@@ -163,7 +163,7 @@ function Chat() {
       <div className={chatStyles.chat_content}>
         {messages.length === 0 ? (
           // 空消息时的占位内容
-          <div style={{ textAlign: 'center', color: '#666', marginTop: '150px' }}>
+          <div className={chatStyles.chat_content_empty}>
             开始您的AI对话吧！
           </div>
         ) : (
@@ -179,7 +179,7 @@ function Chat() {
         
         {/* 只在loading状态为true时显示 */}
         {loading && (
-          <div style={{ textAlign: 'center', color: '#666' }}>
+          <div className={chatStyles.chat_content_loading}>
             思考中...
           </div>
         )}
@@ -228,7 +228,7 @@ function Chat() {
         </div>
       </form>
         {/* 操作提示 */}
-        <div style={{ fontSize: '.9rem', color: 'black', margin:'8px 0' }}>按Enter发送，Shift+Enter换行</div>
+        <div className={chatStyles.chat_input_footer_hint}>按Enter发送，Shift+Enter换行</div>
     </div>
   );
 }

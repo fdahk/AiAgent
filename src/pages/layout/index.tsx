@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Left from './components/leftNav';
-import { ChatProvider } from './context/chatContext';
+import { ChatProvider } from '../chat_bot/chatContext';
 
 function Layout() {
   return (

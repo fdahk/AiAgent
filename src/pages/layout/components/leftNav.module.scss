@@ -2,7 +2,7 @@
     width: 200px;
     height: 100%;
     border-radius: 5px;
-    background-color: #f2eeee;
+    background-color: var(--bg-nav-color);
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #888 transparent; // 滑块颜色 轨道颜色

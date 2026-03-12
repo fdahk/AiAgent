@@ -5,8 +5,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgb(21, 21, 21); 
-  background-color: rgba(0, 0, 0, 0.1);
 
   /* 字体 */
   font-synthesis: none; /* 禁用字体合成 */
@@ -29,16 +27,26 @@ body {
   padding: 0;
 }
 
+/* 根body的样式 */
+#root {
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  --bg-primary-color: rgba(0, 0, 0, 0.1);
+  --bg-nav-color: #f2eeee;
+  --text-primary-color: rgb(21, 21, 21); 
+  --bg-surface-color: white;
+}
+
 /* 读取用户操作系统设置 */
 @media (prefers-color-scheme: dark) {
-  :root {
-    color: rgb(21, 21, 21);
-    background-color: rgba(227, 216, 216, 0.947);
+  #root {
+    --text-primary-color: white; 
+    --bg-primary-color: #0d1117;
+    --bg-nav-color: #161b22;
+    --bg-surface-color: #161b22;
   }
   a:hover {
     color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }
